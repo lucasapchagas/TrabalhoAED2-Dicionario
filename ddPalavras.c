@@ -21,6 +21,7 @@ struct dados{
     int palavras;
     int paginas;
     TListaSE* listaPalavras;
+    TListaSE* listaLinhas;
 };
 
 int n_containing(int chave, TDDinamico* dicionario) {
@@ -50,7 +51,7 @@ void calcula_tf(TDDinamico* dicionario, TDados* dados) {
         int qnt_paginas = tamanhoLSE(listaPags);
         for (int j = 1; j <= qnt_paginas; j++) {
             TPagina* pag = acessarLSE(listaPags, j);
-            pag->tf = tf(pag->ocorrencias, /*TODO: SABER QUANTAS PALAVRAS TEM EM UM DOC */pag->pag);
+            pag->tf = tf(pag->ocorrencias, (int) acessarLSE(dados->listaLinhas, pag->pag));
         }
     }
 }
@@ -79,6 +80,7 @@ TPagina* criarPag(int pag){
 TDados* criarDados(TComparar comparar){
     TDados* dados = malloc(sizeof(TDados));
 
+    dados->listaLinhas = criarLSE(NULL, NULL);
     dados->listaPalavras = criarLSE(NULL,comparar);
     dados->palavras = 0;
     dados->paginas = 0;
@@ -116,6 +118,7 @@ void leituraPalavras(TDDinamico* palavras, FILE* arquivo, TDados* dados){
     char* palavra = NULL;
     int chave = 0;
 
+    int palavras_linha = 0;
     while(fgets(frase, sizeof(frase),arquivo) != NULL){
         palavra = strtok(frase," ");
 
@@ -126,6 +129,7 @@ void leituraPalavras(TDDinamico* palavras, FILE* arquivo, TDados* dados){
             if(strcmp(palavra,"pa") != 0 && strlen(palavra) >= 3 && verificaPrimeiraLetra(palavra) == 1){
                 chave = gerarChave(palavra);
                 dados->palavras++;
+                palavras_linha++;
 
                 if(buscar_DD(palavras,chave) == NULL){
                     TPalavra* p = criarPalavra(palavra,chave);
@@ -147,14 +151,15 @@ void leituraPalavras(TDDinamico* palavras, FILE* arquivo, TDados* dados){
                     }
                 }
                 fprintf(aux, "%s %d\n",palavra,chave); //guarda as chaves num arquivo auxiliar
-            }else if(strcmp(palavra,"pa") == 0){
+            } else if(strcmp(palavra,"pa") == 0) {
                 dados->paginas++;
+                if (palavras_linha > 0)
+                    inserirFinalLSE(dados->listaLinhas, palavras_linha);
             }
             palavra = strtok(NULL," ");
-            
         }
-        
     }
+    inserirFinalLSE(dados->listaLinhas, palavras_linha);
 
     // Calcular o tf para cada pagina
     calcula_tf(palavras, dados);
