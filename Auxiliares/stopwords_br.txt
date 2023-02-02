@@ -137,6 +137,7 @@ fazemos
 fazer
 fazes
 fez
+fig
 fim
 final
 foi

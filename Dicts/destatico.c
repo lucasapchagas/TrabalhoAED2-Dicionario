@@ -40,6 +40,24 @@ void carga_DE(TDEstatico* de, void* info){ // inserir stop word no dicionário
 }
 
 void* buscar_DE(TDEstatico* de, void* chave){
+    (de->stats.nro_bsc)++;
+
+    void* entrada = NULL;
+
+    if (de->ocupacao > 0){
+        for (int i = 0; i < de->ocupacao; i++) {
+            (de->stats.nro_cmp)++;
+            if (de->comparar(de->entradas[i], chave) == 0) {
+                entrada = de->entradas[i];
+                break;
+            }
+        }
+    }
+
+    return entrada;
+}
+
+/*void* buscar_DE(TDEstatico* de, void* chave){
   (de->stats.nro_bsc)++;
 
   void* entrada=NULL;
@@ -66,7 +84,7 @@ void* buscar_DE(TDEstatico* de, void* chave){
   }
 
   return entrada;
-}
+}*/
 
 int ocupacao_DE(TDEstatico* de){
   return (de->ocupacao);
