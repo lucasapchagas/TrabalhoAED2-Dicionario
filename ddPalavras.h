@@ -4,6 +4,8 @@
 typedef struct palavra TPalavra;
 typedef struct pagina TPagina;
 typedef struct dados TDados;
+typedef struct contador TContadorP;
+typedef struct nota TNota;
 
 typedef int (* TComparar)(void*, void*);
 
@@ -16,4 +18,4 @@ void leituraPalavras(TDDinamico* palavras, FILE* arquivo, TDados* dados);
 void imprimirPagina(TPagina* pag);
 void infoPalavra(TListaSE* lista);
 int compararPalavra(void *palavra1, void *palavra2);
-void ordemAlfabeticaPalavras(TDados* dados, TDDinamico* palavras);
+void gerarIndiceRemissivo(TDados* dados, TDDinamico* palavras);

@@ -8,7 +8,7 @@
 
 int main(int argc, char const *argv[]){
   TDEstatico *stopwords = carregarStopWords("Auxiliares/stopwords_br.txt");
-  ProcessarLivro("./Livros/Paralelismo.base", stopwords); //insira o nome do livro
+  ProcessarLivro("./Livros/Aventuras.base", stopwords); //insira o nome do livro
 
   return 0;
 }

@@ -184,8 +184,7 @@ TDDinamico* faz_rehashing(TDDinamico *dd){
      n += x;
   }
   double C = (double)s_x/(double)n - dd->fc;
-  // C = 1.1;
-  // printf("valor de C %lf\n",C);
+
   if (C > 1.0){
     return re_hashingDD(dd);
   }else{

@@ -88,16 +88,29 @@ void* acessarLSE(TListaSE *l, int pos){
 void* removerInicioLSE(TListaSE *l){
   TElementoLSE* elem;
   if (l->inicio == NULL){
-    elem = NULL;
+    return NULL;
   }else{
     elem = l->inicio;
     l->inicio = elem->proximo;
     l->tamanho--;
+    void* carga = elem->cargautil;
+    free(elem);
+    return carga;
   }
-  void*carga = elem->cargautil;
-  free(elem);
-  return carga;
 }
+// void* removerInicioLSE(TListaSE *l){
+//   TElementoLSE* elem;
+//   if (l->inicio == NULL){
+//     elem = NULL;
+//   }else{
+//     elem = l->inicio;
+//     l->inicio = elem->proximo;
+//     l->tamanho--;
+//   }
+//   void*carga = elem->cargautil;
+//   free(elem);
+//   return carga;
+// }
 
 void* removerPosicaoLSE(TListaSE *l, int pos){
     TElementoLSE* removido=NULL;
